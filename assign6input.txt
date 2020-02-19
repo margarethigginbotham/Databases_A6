@@ -1,0 +1,54 @@
+#Margaret Higginbotham
+#CSCI 466 - 2
+#Assignment 6 - Interactive SQL
+#TA: Gayathri Sanikommu
+
+use henrybooks;
+#1 lists all authors, first and last name, alphabetic by first name
+select authorfirst, authorlast from Author order by authorfirst;
+#2 lists all cities that have a publisher only once
+select distinct city from Publisher;
+#3 amount of titles in database
+select count(*) title from Book;
+#4 for each branch location, lists total number of books on hand
+select branchlocation, numemployees, sum(onhand) from Branch, Inventory where Branch.branchnum = Inventory.branchnum group by branchname;
+#5 total number of employees
+select sum(numemployees) from Branch;
+#6 lists the titles of all books by stephen king
+select title, authorlast from Book, Author where authorlast like 'King';
+#7 lists the title, type, and price for all paperback books
+select title, type, price from Book where paperback like 'Y';
+#8 lists the branch name for all branches that have at least one book with 10 copies on hand
+select branchname,onhand, count(*) from Branch, Inventory where Inventory.onhand>10;
+#9 for each books, lists the author, first name and last name in reverse alphabetical order by title
+select title, authorfirst, authorlast from Book, Author order by title desc;
+#10 lists each publisher by name and how many books they published
+select publishername, count(*) from Publisher, Book where Book.publishercode = Publisher.publishercode group by publishername;
+#11 amount of books that cost less than $10
+select count(*) title from Book where (Book.price<10);
+#12 authors last names for all authors published by Simon and Schuster
+select authorlast, publishername from Author, Publisher where publishername like 'Simon and Schuster';
+#13 lists each type of book and how many of each
+select type, count(*) from Book group by type;
+#14 amount of books on hand at Brentwood Mall
+select branchlocation, onhand, count(*) from Branch, Book, Inventory where branchlocation like 'Brentwood Mall';
+#15 lists each branch location, number of em
+select branchlocation, numemployees, onhand from Branch, Inventory group by branchlocation;
+#16 lists the titles of books that have sequence 1
+select distinct title, sequence from Book, Wrote where sequence = (select sequence Wrote where sequence = 1);
+#17 lists all publishers that start with T
+select publishername from Publisher where publishername like 'T%';
+#18 lists all author information for authors that have ll
+select * from Author where authorlast like '%l%l%' or authorfirst like '%l%l%';
+#19 lists all titles that have code 079x, 138x, 669x
+select title, bookcode from Book where bookcode = '079x' or bookcode = '138x' or bookcode  = '669x';
+#20 lists each author last name, title, publisher name, in alphabetic order of publisher
+select authorlast, title, publishername from Author, Book, Publisher order by publishername;
+#21 choose 2 to rewrite
+#number 16
+select distinct title, sequence from Book, Wrote where sequence = 1;
+#number 18
+select * from Author where authorlast like '%ll%';
+#22 make a new question
+#Title of all distinct books published in New York in alphabetical order by title
+select distinct title, city from Book, Publisher where city like 'New York' order by title;
